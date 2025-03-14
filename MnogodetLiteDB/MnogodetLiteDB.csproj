@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{13F42E30-EAD9-4E83-A313-3CA6C8695191}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>MnogodetLiteDB</RootNamespace>
+    <AssemblyName>MnogodetLiteDB</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EPPlus, Version=6.0.4.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.6.0.4\lib\net35\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.Interfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.Interfaces.6.0.0\lib\net35\EPPlus.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.System.Drawing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.System.Drawing.6.0.0\lib\net35\EPPlus.System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="LiteDB, Version=5.0.11.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.5.0.11\lib\net45\LiteDB.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database.cs" />
+    <Compile Include="Export.cs" />
+    <Compile Include="FormDictionaries.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDictionaries.Designer.cs">
+      <DependentUpon>FormDictionaries.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDoubles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDoubles.Designer.cs">
+      <DependentUpon>FormDoubles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormExportProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormExportProgress.Designer.cs">
+      <DependentUpon>FormExportProgress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormExportFNS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormExportFNS.Designer.cs">
+      <DependentUpon>FormExportFNS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFamily.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFamily.Designer.cs">
+      <DependentUpon>FormFamily.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFamiliesProblems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFamiliesProblems.Designer.cs">
+      <DependentUpon>FormFamiliesProblems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormParameters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormParameters.Designer.cs">
+      <DependentUpon>FormParameters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPerson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPerson.Designer.cs">
+      <DependentUpon>FormPerson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPersonsProblems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPersonsProblems.Designer.cs">
+      <DependentUpon>FormPersonsProblems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUdostoverenie.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUdostoverenie.Designer.cs">
+      <DependentUpon>FormUdostoverenie.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormDictionaries.resx">
+      <DependentUpon>FormDictionaries.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDoubles.resx">
+      <DependentUpon>FormDoubles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormExportProgress.resx">
+      <DependentUpon>FormExportProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormExportFNS.resx">
+      <DependentUpon>FormExportFNS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFamily.resx">
+      <DependentUpon>FormFamily.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFamiliesProblems.resx">
+      <DependentUpon>FormFamiliesProblems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormParameters.resx">
+      <DependentUpon>FormParameters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPerson.resx">
+      <DependentUpon>FormPerson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPersonsProblems.resx">
+      <DependentUpon>FormPersonsProblems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUdostoverenie.resx">
+      <DependentUpon>FormUdostoverenie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\Database.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
