@@ -259,27 +259,10 @@ namespace MnogodetLiteDB {
             exportForm.Show();
 
             int totalColumns = 15;
+            string[] columnCaptions = { "", "Родители", "Дата рождения", "Документ", "Номер", "Дата выдачи", "Место выдачи", "Дети", "Дата рождения", "Документ", "Номер", "Дата выдачи", "Место выдачи", "Дата начала статуса", "Дата окончания", "Адрес"};
             for (int i = 1; i <= totalColumns; i++) {
-                string text = "";
-                switch (i) {
-                    case 1: text = "Родители"; break;
-                    case 2: text = "Дата рождения"; break;
-                    case 3: text = "Документ"; break;
-                    case 4: text = "Номер"; break; //3
-                    case 5: text = "Дата выдачи"; break;
-                    case 6: text = "Место выдачи"; break;
-                    case 7: text = "Дети"; break;//4
-                    case 8: text = "Дата рождения"; break;//5
-                    case 9: text = "Документ"; break;
-                    case 10: text = "Номер"; break; //3
-                    case 11: text = "Дата выдачи"; break;
-                    case 12: text = "Место выдачи"; break;
-                    case 13: text = "Дата начала статуса"; break;
-                    case 14: text = "Дата окончания"; break;
-                    case 15: text = "Адрес"; break;
-                }
                 var cell = sheet.Cells[1, i];
-                cell.Value = text;
+                cell.Value = columnCaptions[i];
                 cell.Style.Font.Bold = true;
                 cell.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thick);
             }
@@ -597,7 +580,7 @@ namespace MnogodetLiteDB {
             MessageBox.Show(s);
         }
 
-        public static void QuieryChildrenNum() {
+        public static void QueryChildrenNum() {
             DateTime toDate = DateTime.Parse("01.05.2023");
             var familyList = Database.FindFamiliesAll();
             int[] childrenNum = new int[2];
