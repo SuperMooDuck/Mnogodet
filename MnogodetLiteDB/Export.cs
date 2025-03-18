@@ -813,16 +813,22 @@ namespace MnogodetLiteDB {
             }
         }
 
-        public static void QueryNumberOfChildrenSingleParent()
+        public static void QueryNumberOfChildrenSingleParent(string dateString)
         {
             FormExportProgress exportForm = new FormExportProgress();
+            exportForm.progressText = "Загрузка";
             exportForm.Show();
+            if (!DateTime.TryParse(dateString, out DateTime date)) {
+                exportForm.Close();
+                MessageBox.Show("Неверная дата");
+                return;
+            }
             var familyList = Database.FindFamiliesAll();
             var familyNumberByChildrenNumber = new int[20];
             int counter = 0;
             foreach (var f in familyList)
             {
-                if (!f.IsValidByChildrenNumberAndAge(DateTime.Now)) continue;
+                if (!f.IsValidByChildrenNumberAndAge(date)) continue;
                 int parents = 0, children = 0;
                 foreach (var p in f.persons)
                     if (p.type != 2) parents++; else children++;
@@ -832,11 +838,16 @@ namespace MnogodetLiteDB {
                 exportForm.Update();
             }
             exportForm.Close();
-            var text = "";
+            string text = "";
+            int totalFamilies = 0, totalChildren = 0;
             for (int childrenNumber = 3; childrenNumber < 20; childrenNumber++) {
-                if (familyNumberByChildrenNumber[childrenNumber] == 0) continue;
-                text += childrenNumber.ToString() + " детей = " + familyNumberByChildrenNumber[childrenNumber].ToString() + " семей.";
+                int familiesNum = familyNumberByChildrenNumber[childrenNumber];
+                if (familiesNum == 0) continue;
+                totalFamilies += familiesNum;
+                totalChildren += childrenNumber * familiesNum;
+                text += $"{childrenNumber} детей в семье * {familiesNum} семей = {childrenNumber * familiesNum} детей всего\n";
             }
+            text += $"Всего семей: {totalFamilies}\nВсего детей:{totalChildren}";
             MessageBox.Show(text);
         }
     
