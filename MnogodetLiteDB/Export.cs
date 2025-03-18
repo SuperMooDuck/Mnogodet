@@ -812,6 +812,26 @@ namespace MnogodetLiteDB {
                 MessageBox.Show(year.ToString() + ": " + childrenNumber.ToString());
             }
         }
+
+        public static void QueryNumberOfChildrenSingleParent()
+        {
+            var familyList = Database.FindFamiliesAll();
+            var familyNumberByChildrenNumber = new int[20];
+            foreach (var f in familyList)
+            {
+                if (!f.IsValidByChildrenNumberAndAge(DateTime.Now)) continue;
+                int parents = 0, children = 0;
+                foreach (var p in f.persons)
+                    if (p.type != 2) parents++; else children++;
+                if (parents >= 2) continue;
+                familyNumberByChildrenNumber[children]++;
+            }
+            var text = "";
+            for (int childrenNumber = 3; childrenNumber < 20; childrenNumber++) {
+                if (familyNumberByChildrenNumber[childrenNumber] == 0) continue;
+                text += childrenNumber.ToString() + " детей = " + familyNumberByChildrenNumber[childrenNumber].ToString() + " семей.";
+            }
+        }
     
         public static void FindPeopleFromExcel() {
             OpenFileDialog openFileDialog = new OpenFileDialog();

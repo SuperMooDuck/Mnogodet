@@ -102,7 +102,7 @@ namespace MnogodetLiteDB {
         }
 
         private void button1_Click(object sender, EventArgs e) {
-            Export.AddSnilsFromFile();
+            Export.QueryNumberOfChildrenSingleParent();
         }
 
         private void buttonParameters_Click(object sender, EventArgs e) {
