@@ -68,8 +68,6 @@ namespace MnogodetLiteDB {
         private void searchEdit_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter)
                 Search();
-            if (e.KeyCode == Keys.F1 && e.Control && e.Shift)
-                Export.QuieryChildrenNum();
         }
 
         private void gridPersons_MouseDoubleClick(object sender, MouseEventArgs e) {
