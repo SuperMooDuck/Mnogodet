@@ -4,10 +4,13 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace MnogodetLiteDB {
-    public static class Export {
+namespace MnogodetLiteDB
+{
+    public static class Export
+    {
 
-        public static void CompareList2() {
+        public static void CompareList2()
+        {
             FormExportProgress exportForm = new FormExportProgress();
             exportForm.Show();
 
@@ -24,12 +27,15 @@ namespace MnogodetLiteDB {
             int assCount = 1;
 
             int row = 1;
-            while (MfcTable.Cells[row, 1].Value != null) {
+            while (MfcTable.Cells[row, 1].Value != null)
+            {
 
                 var f = new Database.Family();
-                
-                while (true) {
-                    var p = new Database.Person() {
+
+                while (true)
+                {
+                    var p = new Database.Person()
+                    {
                         f = (string)MfcTable.Cells[row, 2].Value,
                         i = (string)MfcTable.Cells[row, 3].Value,
                         o = (string)MfcTable.Cells[row, 4].Value,
@@ -45,8 +51,9 @@ namespace MnogodetLiteDB {
             MfcFile.Dispose();
 
             int i = 0;
-            foreach (var dbF in dbFamilies) {
-                
+            foreach (var dbF in dbFamilies)
+            {
+
                 exportForm.progressText = (++i).ToString();
                 if (!dbF.IsValidByChildrenNumberAndAge(DateTime.Now))
                     continue;
@@ -54,11 +61,15 @@ namespace MnogodetLiteDB {
 
                 bool personFound = false;
 
-                foreach (var dbP in dbF.persons) {                    
-                    foreach (var mfcF in MfcFamilies) {                        
-                        foreach (var mfcP in mfcF.persons) {
+                foreach (var dbP in dbF.persons)
+                {
+                    foreach (var mfcF in MfcFamilies)
+                    {
+                        foreach (var mfcP in mfcF.persons)
+                        {
 
-                            if (mfcP.IsFioDateEqualsTo(dbP)) {
+                            if (mfcP.IsFioDateEqualsTo(dbP))
+                            {
                                 personFound = true;
                                 break;
                             }
@@ -73,9 +84,11 @@ namespace MnogodetLiteDB {
                     WriteToXl(dbF, exportAssTable, ref assCount);
             }
 
-            void WriteToXl(Database.Family family, OfficeOpenXml.ExcelWorksheet table, ref int counter) {
+            void WriteToXl(Database.Family family, OfficeOpenXml.ExcelWorksheet table, ref int counter)
+            {
                 table.Cells[counter, 1].Value = family.address;
-                foreach (var person in family.persons) {
+                foreach (var person in family.persons)
+                {
                     table.Cells[counter, 2].Value = person.f;
                     table.Cells[counter, 3].Value = person.i;
                     table.Cells[counter, 4].Value = person.o;
@@ -89,7 +102,8 @@ namespace MnogodetLiteDB {
             exportForm.Close();
         }
 
-        public static void CompareList() {
+        public static void CompareList()
+        {
             FormExportProgress exportForm = new FormExportProgress();
             exportForm.Show();
 
@@ -135,46 +149,56 @@ namespace MnogodetLiteDB {
             int outdatedCount = 1;
 
             int row = 1;
-            while (MfcTable.Cells[row, 1].Value != null) {
-                
+            while (MfcTable.Cells[row, 1].Value != null)
+            {
+
                 var f = new Database.Family();
                 f.address = (string)MfcTable.Cells[row, 1].Value;
 
-                while (true) {
-                    var p = new Database.Person() {
+                while (true)
+                {
+                    var p = new Database.Person()
+                    {
                         f = (string)MfcTable.Cells[row, 2].Value,
                         i = (string)MfcTable.Cells[row, 3].Value,
                         o = (string)MfcTable.Cells[row, 4].Value,
                         birthDate = DateTime.Parse((string)MfcTable.Cells[row, 5].Value)
                     };
-                    if (p.Age() < 18) p.type = 2;                    
+                    if (p.Age() < 18) p.type = 2;
                     f.persons.Add(p);
                     row++;
                     if ((MfcTable.Cells[row, 1].Value != null && MfcTable.Cells[row, 1].Value != "") || MfcTable.Cells[row, 2].Value == null) break;
                 }
 
-                if (!f.IsValidByChildrenNumberAndAge(DateTime.Now)) {
+                if (!f.IsValidByChildrenNumberAndAge(DateTime.Now))
+                {
                     WriteToXl(f, exportOutdatedTable, ref outdatedCount);
                     continue;
                 }
 
                 int personsFound = 0;
-                foreach (var dbF in dbFamilies) {
+                foreach (var dbF in dbFamilies)
+                {
 
-                    foreach (var p in f.persons) {
-                        foreach (var dbP in dbF.persons) {
+                    foreach (var p in f.persons)
+                    {
+                        foreach (var dbP in dbF.persons)
+                        {
 
-                            if (p.IsFioDateEqualsTo(dbP)) {
+                            if (p.IsFioDateEqualsTo(dbP))
+                            {
                                 personsFound++;
                                 break;
                             }
-                            else {
+                            else
+                            {
                                 int groupsEquals = 0;
                                 if (p.f.ToLower().Replace("ё", "е") == dbP.f.ToLower().Replace("ё", "е")) groupsEquals++;
                                 if (p.i.ToLower().Replace("ё", "е") == dbP.i.ToLower().Replace("ё", "е")) groupsEquals++;
                                 if (p.o.ToLower().Replace("ё", "е") == dbP.o.ToLower().Replace("ё", "е")) groupsEquals++;
                                 if (p.birthDate == dbP.birthDate) groupsEquals++;
-                                if (groupsEquals >= 3) {
+                                if (groupsEquals >= 3)
+                                {
                                     //p.i = dbP.i; p.f = dbP.f; p.o = dbP.o; p.birthDate = dbP.birthDate;
                                     //p.Update();
                                     exportTypeErrorTable.Cells[typeErrorCount, 1].Value = p.f;
@@ -194,10 +218,11 @@ namespace MnogodetLiteDB {
                         }
                     }
 
-                    if (personsFound > 0) {
+                    if (personsFound > 0)
+                    {
                         dbF.address = f.address;
                         dbF.Update();
-                        if (personsFound == f.persons.Count && personsFound == dbF.persons.Count) 
+                        if (personsFound == f.persons.Count && personsFound == dbF.persons.Count)
                             WriteToXl(f, exportFoundTable, ref foundCount);
                         else if (dbF.IsValidByChildrenNumberAndAge(DateTime.Now))
                             WriteToXl(f, exportPartFoundTable, ref partFoundCount);
@@ -211,9 +236,11 @@ namespace MnogodetLiteDB {
                 if (personsFound == 0)
                     WriteToXl(f, exportNotFoundTable, ref notFoundCount);
 
-                void WriteToXl(Database.Family family, OfficeOpenXml.ExcelWorksheet table, ref int counter) {
+                void WriteToXl(Database.Family family, OfficeOpenXml.ExcelWorksheet table, ref int counter)
+                {
                     table.Cells[counter, 1].Value = family.address;
-                    foreach (var person in family.persons) {
+                    foreach (var person in family.persons)
+                    {
                         table.Cells[counter, 2].Value = person.f;
                         table.Cells[counter, 3].Value = person.i;
                         table.Cells[counter, 4].Value = person.o;
@@ -242,7 +269,8 @@ namespace MnogodetLiteDB {
             exportForm.Close();
         }
 
-        public static void ExportPfrExcel() {
+        public static void ExportPfrExcel()
+        {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Файлы Excel (*.xlsx)|*.xlsx";
             saveFileDialog.AddExtension = true;
@@ -259,8 +287,9 @@ namespace MnogodetLiteDB {
             exportForm.Show();
 
             int totalColumns = 15;
-            string[] columnCaptions = { "", "Родители", "Дата рождения", "Документ", "Номер", "Дата выдачи", "Место выдачи", "Дети", "Дата рождения", "Документ", "Номер", "Дата выдачи", "Место выдачи", "Дата начала статуса", "Дата окончания", "Адрес"};
-            for (int i = 1; i <= totalColumns; i++) {
+            string[] columnCaptions = { "", "Родители", "Дата рождения", "Документ", "Номер", "Дата выдачи", "Место выдачи", "Дети", "Дата рождения", "Документ", "Номер", "Дата выдачи", "Место выдачи", "Дата начала статуса", "Дата окончания", "Адрес" };
+            for (int i = 1; i <= totalColumns; i++)
+            {
                 var cell = sheet.Cells[1, i];
                 cell.Value = columnCaptions[i];
                 cell.Style.Font.Bold = true;
@@ -270,7 +299,8 @@ namespace MnogodetLiteDB {
             int familyCellY = 2, familyProcessed = 0, familyExported = 0;
             var familyList = Database.FindFamiliesAll();
 
-            foreach (var f in familyList) {
+            foreach (var f in familyList)
+            {
                 familyProcessed++;
                 exportForm.progressText = familyProcessed.ToString() + " / " + familyList.Count.ToString();
                 exportForm.Update();
@@ -279,14 +309,17 @@ namespace MnogodetLiteDB {
                 //if (f.GetProblemText() != null) continue;
                 //if (f.udostoverenie.number == "" || f.udostoverenie.number == null) continue;
 
-                    int parentCellY = familyCellY, childCellY = familyCellY;
-                foreach (var p in f.persons) {
+                int parentCellY = familyCellY, childCellY = familyCellY;
+                foreach (var p in f.persons)
+                {
                     int cellX, cellY;
-                    if (p.type < 2) {
+                    if (p.type < 2)
+                    {
                         cellX = 1;
                         cellY = parentCellY++;
                     }
-                    else {
+                    else
+                    {
                         //if (p.Age() >= 18) continue;
                         cellX = 7;
                         cellY = childCellY++;
@@ -295,8 +328,10 @@ namespace MnogodetLiteDB {
                     sheet.Cells[cellY, cellX + 1].Value = p.birthDate.ToString("d");
 
                     Database.Document document = null;
-                    foreach (var d in p.documents) {
-                        if (d.typeID == 0) {
+                    foreach (var d in p.documents)
+                    {
+                        if (d.typeID == 0)
+                        {
                             document = d;
                             break;
                         }
@@ -325,7 +360,8 @@ namespace MnogodetLiteDB {
             exportForm.Close();
             MessageBox.Show($"Выгружено {familyExported} семей");
         }
-        public static void ExportFNSXML() { //DateTime toDate
+        public static void ExportFNSXML()
+        { //DateTime toDate
             int yearToExport = DateTime.Now.Year - 1;
             DateTime yearToExportStart = new DateTime(yearToExport, 1, 1);
             DateTime yearToExportEnd = new DateTime(yearToExport, 12, 31);
@@ -377,7 +413,8 @@ namespace MnogodetLiteDB {
             var familyList = Database.FindFamiliesAll();
             FormExportProgress exportForm = new FormExportProgress();
             exportForm.Show();
-            foreach (var f in familyList) {
+            foreach (var f in familyList)
+            {
                 familyProcessed++;
                 exportForm.progressText = familyProcessed.ToString() + " / " + familyList.Count.ToString();
                 exportForm.Update();
@@ -387,9 +424,10 @@ namespace MnogodetLiteDB {
 
                 if (f.GetProblemText() != null) continue;
                 if (!f.IsValidByChildrenNumberAndAge(yearToExportStart) && !f.IsValidByChildrenNumberAndAge(yearToExportEnd)) continue;
-                
+
                 List<Database.Person> children = new List<Database.Person>(), parents = new List<Database.Person>();
-                foreach (var p in f.persons) {
+                foreach (var p in f.persons)
+                {
                     if (p.type < 2) parents.Add(p);
                     else if (p.birthDate <= yearToExportEnd && p.birthDate.AddYears(18) > yearToExportStart) children.Add(p);
                 }
@@ -403,11 +441,13 @@ namespace MnogodetLiteDB {
                 xmlNode.SetAttribute("ДатаДок", DateTime.Now.ToShortDateString());
                 xmlNode.SetAttribute("ТипДок", f.fnsStatus == Database.Family.ExportStatus.New ? "01" : "02");
 
-                foreach (var p in parents) {
+                foreach (var p in parents)
+                {
                     XmlElement xmlFamily = xmlDoc.CreateElement("СодСвед");
                     xmlFamily.SetAttribute("КолДет", children.Count.ToString());
 
-                    for (int i = -1; i < children.Count; i++) {
+                    for (int i = -1; i < children.Count; i++)
+                    {
                         Database.Person expPer = i == -1 ? p : children[i];
                         XmlElement xmlPerson = xmlDoc.CreateElement(i == -1 ? "СведФЛ" : "СведДет");
                         xmlPerson.SetAttribute("ДатаРожд", expPer.birthDate.ToShortDateString());
@@ -419,8 +459,10 @@ namespace MnogodetLiteDB {
                         xmlPerson.AppendChild(xmlFio);
 
                         bool singleDocExported = false;
-                        foreach (var document in expPer.documents) {
-                            switch (document.typeID) {
+                        foreach (var document in expPer.documents)
+                        {
+                            switch (document.typeID)
+                            {
                                 case 0: xmlPerson.SetAttribute("СНИЛС", document.number.Replace('-', ' ')); break;
                                 case 1: xmlPerson.SetAttribute("ИННФЛ", document.number); break;
                                 default:
@@ -440,7 +482,7 @@ namespace MnogodetLiteDB {
                         xmlFamily.AppendChild(xmlPerson);
                     }
                     xmlNode.AppendChild(xmlFamily);
-                    
+
 
                     /*if (f.fnsStatus == Database.Family.ExportStatus.New) {
                         newDocsNode.AppendChild(xmlFamily);
@@ -476,7 +518,8 @@ namespace MnogodetLiteDB {
                 $"Новых записей: {newRecords}, измененных: {changedRecords}");
         }
 
-        public static void QueryMothers() {
+        public static void QueryMothers()
+        {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Файлы Excel (*.xlsx)|*.xlsx";
             saveFileDialog.AddExtension = true;
@@ -493,9 +536,11 @@ namespace MnogodetLiteDB {
             exportForm.Show();
 
             int totalColumns = 7;
-            for (int i = 1; i <= totalColumns; i++) {
+            for (int i = 1; i <= totalColumns; i++)
+            {
                 string text = "";
-                switch (i) {
+                switch (i)
+                {
                     case 1: text = "СНИЛС"; break;
                     case 2: text = "ФИО"; break;
                     case 3: text = "Дата рождения"; break;
@@ -514,13 +559,15 @@ namespace MnogodetLiteDB {
             int totalFamilies = familyList.Count;
             int familiesProcessed = 0;
             int row = 2;
-            foreach (var f in familyList) {
+            foreach (var f in familyList)
+            {
                 familiesProcessed++;
 
                 if (!f.IsValidByChildrenNumberAndAge(DateTime.Now)) continue;
                 Database.Person mother = null;
                 foreach (var p in f.persons)
-                    if (p.type == 0) {
+                    if (p.type == 0)
+                    {
                         mother = p;
                         break;
                     }
@@ -534,14 +581,16 @@ namespace MnogodetLiteDB {
                 sheet.Cells[row, 4].Value = f.address;
                 sheet.Cells[row, 7].Value = f.comment;
 
-                foreach (var d in mother.documents) {
+                foreach (var d in mother.documents)
+                {
                     if (d.typeID != 0) continue;
                     sheet.Cells[row, 1].Value = d.number;
                 }
 
                 int childrenNum = 0;
                 string childrenBirthDates = "";
-                foreach (var p in f.persons) {
+                foreach (var p in f.persons)
+                {
                     if (p.type != 2) continue;
                     if (childrenNum > 0) childrenBirthDates += ", ";
                     childrenBirthDates += p.birthDate.ToShortDateString();
@@ -560,14 +609,17 @@ namespace MnogodetLiteDB {
             exportForm.Close();
         }
 
-        public static void FullFamiliesChildrenNum() {
+        public static void FullFamiliesChildrenNum()
+        {
             var familyList = Database.FindFamiliesAll();
             int[] familiesNum = new int[13];
 
-            foreach (var f in familyList) {
+            foreach (var f in familyList)
+            {
                 if (f.IsValidByChildrenNumberAndAge(DateTime.Parse("01.01.2021"))) continue;
                 int cNum = 0, pNum = 0;
-                foreach (var p in f.persons) {
+                foreach (var p in f.persons)
+                {
                     if (p.type == 2) cNum++;
                     else pNum++;
                 }
@@ -580,14 +632,17 @@ namespace MnogodetLiteDB {
             MessageBox.Show(s);
         }
 
-        public static void QueryChildrenNum() {
+        public static void QueryChildrenNum()
+        {
             DateTime toDate = DateTime.Parse("01.05.2023");
             var familyList = Database.FindFamiliesAll();
             int[] childrenNum = new int[2];
 
-            foreach (var f in familyList) {
+            foreach (var f in familyList)
+            {
                 if (!f.IsValidByChildrenNumberAndAge(toDate)) continue;
-                foreach (var p in f.persons) {
+                foreach (var p in f.persons)
+                {
                     if (p.type != 2) continue;
                     TimeSpan dateDiff = toDate - p.birthDate;
                     if (dateDiff.TotalDays < 0) continue;
@@ -598,27 +653,33 @@ namespace MnogodetLiteDB {
             MessageBox.Show("0-1.5: " + childrenNum[0] + ", 1.5-3: " + childrenNum[1]);
         }
 
-        public static void FillGender() {
+        public static void FillGender()
+        {
             var personsList = Database.FindPersonsAll();
             int processed = 0;
             List<List<string>> names = new List<List<string>>(2);
             names.Add(new List<string>());
             names.Add(new List<string>());
-            foreach (var p in personsList) {
+            foreach (var p in personsList)
+            {
                 processed++;
-                if (p.type < 2) {
-                    p.gender = (Database.Person.Gender) p.type;
+                if (p.type < 2)
+                {
+                    p.gender = (Database.Person.Gender)p.type;
                     p.Update();
-                    if (!names[p.type].Contains(p.i ))
+                    if (!names[p.type].Contains(p.i))
                         names[p.type].Add(p.i);
                     continue;
                 }
 
                 bool nameFound = false;
-                for (int i=0; i<2; i++) {
-                    foreach (var name in names[i]) {
-                        if (name == p.i) {
-                            p.gender = (Database.Person.Gender) i;
+                for (int i = 0; i < 2; i++)
+                {
+                    foreach (var name in names[i])
+                    {
+                        if (name == p.i)
+                        {
+                            p.gender = (Database.Person.Gender)i;
                             p.Update();
                             nameFound = true;
                             i = 2;
@@ -629,22 +690,27 @@ namespace MnogodetLiteDB {
                 if (nameFound) continue;
 
                 DialogResult dialogResult;
-                do {
+                do
+                {
                     dialogResult = MessageBox.Show(processed.ToString() + "/" + personsList.Count + "\n" + p.f + " " + p.i + " " + p.o + "\n Да - мужской, Нет - женский", "Выберите пол", MessageBoxButtons.YesNo);
                 } while (dialogResult != DialogResult.Yes && dialogResult != DialogResult.No);
 
-                if (dialogResult == DialogResult.Yes) {
+                if (dialogResult == DialogResult.Yes)
+                {
                     p.gender = Database.Person.Gender.Male;
                     names[1].Add(p.i);
-                } else {
+                }
+                else
+                {
                     p.gender = Database.Person.Gender.Female;
                     names[0].Add(p.i);
                 }
                 p.Update();
             }
         }
-    
-        public static void ExportPfrCsv() {
+
+        public static void ExportPfrCsv()
+        {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Файлы CSV (*.csv)|*.csv";
             saveFileDialog.AddExtension = true;
@@ -653,7 +719,7 @@ namespace MnogodetLiteDB {
             if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
             if (System.IO.File.Exists(saveFileDialog.FileName))
                 System.IO.File.Delete(saveFileDialog.FileName);
-            var mainStreamWriter = new System.IO.StreamWriter(saveFileDialog.FileName, false, System.Text.Encoding.UTF8 ); //System.Text.Encoding.GetEncoding("CP866")
+            var mainStreamWriter = new System.IO.StreamWriter(saveFileDialog.FileName, false, System.Text.Encoding.UTF8); //System.Text.Encoding.GetEncoding("CP866")
 
             saveFileDialog.Title = "Файл с семьями без снилсов";
             if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
@@ -671,9 +737,10 @@ namespace MnogodetLiteDB {
             string workerFio = "Галактионова;Наталья;Георгиевна;Главный специалист-эксперт";
 
 
-             var familyList = Database.FindFamiliesAll();
+            var familyList = Database.FindFamiliesAll();
 
-            foreach (var f in familyList) {
+            foreach (var f in familyList)
+            {
                 familyProcessed++;
                 exportForm.progressText = familyProcessed.ToString() + " / " + familyList.Count.ToString();
                 exportForm.Update();
@@ -682,11 +749,13 @@ namespace MnogodetLiteDB {
                 string familyToWrite = "";
                 bool snilsNotPresent = false;
 
-                foreach (var p in f.persons) {
+                foreach (var p in f.persons)
+                {
                     familyToWrite += f.Id.ToString() + ";1;000;" + subjectRF + ";";
                     Database.Document snils = null;
                     foreach (var d in p.documents)
-                        if (d.typeID == 0) {
+                        if (d.typeID == 0)
+                        {
                             snils = d;
                             break;
                         }
@@ -697,15 +766,17 @@ namespace MnogodetLiteDB {
                         familyToWrite += (p.type + 1).ToString();
                     else
                         familyToWrite += (p.gender == Database.Person.Gender.Male ? "3" : "4");
-                    if (f.udostoverenie.number != "") {
+                    if (f.udostoverenie.number != "")
+                    {
                         familyToWrite += $";{f.udostoverenie.issuedDate.ToShortDateString()};{f.udostoverenieExpirationDate.ToShortDateString()};{f.udostoverenie.number};{f.udostoverenie.issuedDate.ToShortDateString()};";
-                        familyToWrite += $"{organization};{NPA};{ f.udostoverenie.issuedDate.ToShortDateString()};{f.udostoverenieExpirationDate.ToShortDateString()};{workerFio};\n";
+                        familyToWrite += $"{organization};{NPA};{f.udostoverenie.issuedDate.ToShortDateString()};{f.udostoverenieExpirationDate.ToShortDateString()};{workerFio};\n";
                     }
-                    else {
+                    else
+                    {
                         familyToWrite += $";{f.StatusStartByChildrenBirthdate().ToShortDateString()};{f.StatusExpirationByChildrenBirthdate().ToShortDateString()};0;{f.StatusStartByChildrenBirthdate().ToShortDateString()};";
-                        familyToWrite += $"{organization};{NPA};{ f.StatusStartByChildrenBirthdate().ToShortDateString()};{f.StatusExpirationByChildrenBirthdate().ToShortDateString()};{workerFio};\n";
+                        familyToWrite += $"{organization};{NPA};{f.StatusStartByChildrenBirthdate().ToShortDateString()};{f.StatusExpirationByChildrenBirthdate().ToShortDateString()};{workerFio};\n";
                     }
-                    
+
                 }
                 if (!snilsNotPresent)
                     mainStreamWriter.Write(familyToWrite);
@@ -719,8 +790,9 @@ namespace MnogodetLiteDB {
             exportForm.Close();
             MessageBox.Show($"Выгружено {familyExported} семей");
         }
-    
-        public static void AddSnilsFromFile() {
+
+        public static void AddSnilsFromFile()
+        {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Файлы Excel (*.xlsx)|*.xlsx";
             if (openFileDialog.ShowDialog() != DialogResult.OK) return;
@@ -734,14 +806,16 @@ namespace MnogodetLiteDB {
             int i = 2;
             while (table.Cells[i, 1].Value != null)
             {
-                foreach (var p in Database.FindPersonsAll()) {
-                    if (p.f.ToLower().Replace("ё", "е") != ((string)table.Cells[i,2].Value).ToLower().Replace("ё", "е")) continue;
-                    if (p.i.ToLower().Replace("ё", "е") != ((string)table.Cells[i,3].Value).ToLower().Replace("ё", "е")) continue;
-                    if (p.o.ToLower().Replace("ё", "е") != ((string)table.Cells[i,4].Value).ToLower().Replace("ё", "е")) continue;
+                foreach (var p in Database.FindPersonsAll())
+                {
+                    if (p.f.ToLower().Replace("ё", "е") != ((string)table.Cells[i, 2].Value).ToLower().Replace("ё", "е")) continue;
+                    if (p.i.ToLower().Replace("ё", "е") != ((string)table.Cells[i, 3].Value).ToLower().Replace("ё", "е")) continue;
+                    if (p.o.ToLower().Replace("ё", "е") != ((string)table.Cells[i, 4].Value).ToLower().Replace("ё", "е")) continue;
                     if (p.birthDate != (DateTime)table.Cells[i, 5].Value) continue;
                     if (p.SNILS != null) continue;
 
-                    p.documents.Add(new Database.Document {
+                    p.documents.Add(new Database.Document
+                    {
                         typeID = 0,
                         number = (string)table.Cells[i, 1].Value
                     });
@@ -753,22 +827,26 @@ namespace MnogodetLiteDB {
                 exportForm.Update();
                 i++;
             }
-            
+
             exportForm.Close();
         }
 
-        public static void QueryChildrenBornInPeriod(DateTime periodStart, DateTime periodEnd, DateTime forValidToDate) {
+        public static void QueryChildrenBornInPeriod(DateTime periodStart, DateTime periodEnd, DateTime forValidToDate)
+        {
             //DateTime periodStart = DateTime.Parse("01.01.2019");
             //DateTime periodEnd = DateTime.Parse("31.12.2023");
             var familyList = Database.FindFamiliesAll();
             int childrenNum = 0;
 
-            foreach (var f in familyList) {
+            foreach (var f in familyList)
+            {
                 if (f.GetProblemText() != null) continue;
                 if (!f.IsValidByChildrenNumberAndAge(forValidToDate)) continue;
-                foreach (var p in f.persons) {
+                foreach (var p in f.persons)
+                {
                     if (p.type != 2) continue;
-                    if (p.birthDate >= periodStart && p.birthDate <= periodEnd) {
+                    if (p.birthDate >= periodStart && p.birthDate <= periodEnd)
+                    {
                         childrenNum++;
                     }
                 }
@@ -798,13 +876,17 @@ namespace MnogodetLiteDB {
             MessageBox.Show("Детей : " + childrenNum);
         }
 
-        public static void QueryNumberOfChildrenBornInYear() {
+        public static void QueryNumberOfChildrenBornInYear()
+        {
             var familyList = Database.FindFamiliesAll();
-            for (int year = 2018; year <= 2024; year++) {
+            for (int year = 2018; year <= 2024; year++)
+            {
                 int childrenNumber = 0;
-                foreach (var f in familyList) {
+                foreach (var f in familyList)
+                {
                     if (f.GetProblemText() != null) continue;
-                    foreach (var p in f.persons) {
+                    foreach (var p in f.persons)
+                    {
                         if (p.type != 2) continue;
                         if (p.birthDate > new DateTime(year, 1, 1) && p.birthDate < new DateTime(year, 12, 31)) childrenNumber++;
                     }
@@ -818,7 +900,8 @@ namespace MnogodetLiteDB {
             FormExportProgress exportForm = new FormExportProgress();
             exportForm.progressText = "Загрузка";
             exportForm.Show();
-            if (!DateTime.TryParse(dateString, out DateTime date)) {
+            if (!DateTime.TryParse(dateString, out DateTime date))
+            {
                 exportForm.Close();
                 MessageBox.Show("Неверная дата");
                 return;
@@ -840,7 +923,8 @@ namespace MnogodetLiteDB {
             exportForm.Close();
             string text = "";
             int totalFamilies = 0, totalChildren = 0;
-            for (int childrenNumber = 3; childrenNumber < 20; childrenNumber++) {
+            for (int childrenNumber = 3; childrenNumber < 20; childrenNumber++)
+            {
                 int familiesNum = familyNumberByChildrenNumber[childrenNumber];
                 if (familiesNum == 0) continue;
                 totalFamilies += familiesNum;
@@ -850,8 +934,9 @@ namespace MnogodetLiteDB {
             text += $"Всего семей: {totalFamilies}\nВсего детей:{totalChildren}";
             MessageBox.Show(text);
         }
-    
-        public static void FindPeopleFromExcel() {
+
+        public static void FindPeopleFromExcelFIO()
+        {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Файлы Excel (*.xlsx)|*.xlsx";
             if (openFileDialog.ShowDialog() != DialogResult.OK) return;
@@ -864,7 +949,8 @@ namespace MnogodetLiteDB {
             exportForm.Show();
 
             int i = 2;
-            while (table.Cells[i, 1].Value != null ) {
+            while (table.Cells[i, 1].Value != null)
+            {
                 /*string s = ((string)table.Cells[i, 1].Value).ToLower().Replace("ё", "е");
                 string[] fio = s.Split(' ');
                 if (fio.Length != 3) {
@@ -875,7 +961,8 @@ namespace MnogodetLiteDB {
                 string fio = ((string)table.Cells[i, 1].Value).ToLower().Replace("ё", "е");
 
                 bool personFound = false;
-                foreach (var p in persons) {
+                foreach (var p in persons)
+                {
                     /*if (p.f.ToLower().Replace("ё", "е") != fio[0]) continue;
                     if (p.i.ToLower().Replace("ё", "е") != fio[1]) continue;
                     if (p.o.ToLower().Replace("ё", "е") != fio[2]) continue;*/
@@ -887,6 +974,54 @@ namespace MnogodetLiteDB {
                 exportForm.progressText = (i).ToString();
                 exportForm.Update();
                 i++;
+            }
+
+            exportForm.Close();
+            excelFile.Save();
+            excelFile.Dispose();
+        }
+
+        public static void FindPeopleFromExcelSNILS()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Файлы Excel (*.xlsx)|*.xlsx";
+            if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+
+            var excelFile = new OfficeOpenXml.ExcelPackage(openFileDialog.FileName);
+            var table = excelFile.Workbook.Worksheets[0];
+            var persons = Database.FindPersonsAll();
+
+            var exportForm = new FormExportProgress();
+            exportForm.Show();
+
+            int i = 1;
+            while (table.Cells[i, 1].Value != null)
+            {
+                string SNILS = ((string)table.Cells[i, 1].Value);
+
+                bool personFound = false;
+                foreach (var p in persons)
+                {
+                    foreach (var d in p.documents)
+                    {
+                        if (d.typeID != 0) continue;
+                        if (d.number != SNILS) continue;
+                        personFound = true;
+                        break;
+                    }
+                    if (personFound)
+                    {
+                        table.Cells[i, 2].Value = p.f;
+                        table.Cells[i, 3].Value = p.i;
+                        table.Cells[i, 4].Value = p.o;
+                        table.Cells[i, 5].Value = p.birthDate.ToShortDateString();
+                        table.Cells[i, 6].Value = p.type;
+                        break;
+                    }
+                }
+
+                exportForm.progressText = (i++).ToString();
+                exportForm.Update();
             }
 
             exportForm.Close();

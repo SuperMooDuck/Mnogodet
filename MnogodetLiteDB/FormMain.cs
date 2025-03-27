@@ -42,8 +42,9 @@ namespace MnogodetLiteDB {
                         }
                     if (!documentFound) {
                         family = Database.FindFamilyById(p.familyId);
-                        if (family.udostoverenie.number != null && !family.udostoverenie.number.ToLower().Contains(s)) continue;
+                        if (family.udostoverenie.number == null || !family.udostoverenie.number.ToLower().Contains(s)) continue;
                     }
+
                 }
                 string[] addressStrings = editAddress.Text.ToLower().Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
                 if (addressStrings.Length != 0) {
@@ -98,9 +99,10 @@ namespace MnogodetLiteDB {
         private void buttonDoubles_Click(object sender, EventArgs e) {
             FormDoubles.Open();
         }
-
+// Запилить нормальное окно с запросами. Добавлять запросы в этом же окне
+// Запилить приличное окно прогресса, с автоматизацией Show и Update
         private void button1_Click(object sender, EventArgs e) {
-            Export.QueryNumberOfChildrenSingleParent(QueryText.Text);
+            Export.FindPeopleFromExcelSNILS();
         }
 
         private void buttonParameters_Click(object sender, EventArgs e) {
