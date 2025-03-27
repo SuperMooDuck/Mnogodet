@@ -131,6 +131,12 @@
     <Compile Include="FormPersonsProblems.Designer.cs">
       <DependentUpon>FormPersonsProblems.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormQueries.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormQueries.Designer.cs">
+      <DependentUpon>FormQueries.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUdostoverenie.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -168,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormPersonsProblems.resx">
       <DependentUpon>FormPersonsProblems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormQueries.resx">
+      <DependentUpon>FormQueries.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUdostoverenie.resx">
       <DependentUpon>FormUdostoverenie.cs</DependentUpon>

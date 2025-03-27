@@ -52,7 +52,6 @@ namespace MnogodetLiteDB {
             this.buttonDoubles = new System.Windows.Forms.Button();
             this.buttonParameters = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.QueryText = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridPersons)).BeginInit();
             this.SuspendLayout();
             // 
@@ -279,7 +278,7 @@ namespace MnogodetLiteDB {
             this.QueryBtn.Name = "QueryBtn";
             this.QueryBtn.Size = new System.Drawing.Size(118, 23);
             this.QueryBtn.TabIndex = 26;
-            this.QueryBtn.Text = "Запрос";
+            this.QueryBtn.Text = "Запросы";
             this.QueryBtn.UseVisualStyleBackColor = true;
             this.QueryBtn.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -313,19 +312,11 @@ namespace MnogodetLiteDB {
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // QueryText
-            // 
-            this.QueryText.Location = new System.Drawing.Point(14, 612);
-            this.QueryText.Name = "QueryText";
-            this.QueryText.Size = new System.Drawing.Size(116, 20);
-            this.QueryText.TabIndex = 30;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1118, 740);
-            this.Controls.Add(this.QueryText);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.buttonParameters);
             this.Controls.Add(this.buttonDoubles);
@@ -388,7 +379,6 @@ namespace MnogodetLiteDB {
         private System.Windows.Forms.Button buttonDoubles;
         private System.Windows.Forms.Button buttonParameters;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.TextBox QueryText;
     }
 }
 

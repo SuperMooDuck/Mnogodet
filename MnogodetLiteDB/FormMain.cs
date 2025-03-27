@@ -99,10 +99,10 @@ namespace MnogodetLiteDB {
         private void buttonDoubles_Click(object sender, EventArgs e) {
             FormDoubles.Open();
         }
-// Запилить нормальное окно с запросами. Добавлять запросы в этом же окне
 // Запилить приличное окно прогресса, с автоматизацией Show и Update
+// Запилить диалог выбора даты
         private void button1_Click(object sender, EventArgs e) {
-            Export.FindPeopleFromExcelSNILS();
+            FormQueries.Open();
         }
 
         private void buttonParameters_Click(object sender, EventArgs e) {
