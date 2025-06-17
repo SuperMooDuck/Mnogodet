@@ -542,16 +542,24 @@ namespace MnogodetLiteDB
             var exportForm = new FormExportProgress();
             exportForm.Show();
 
-            int i = 2;
+            int i = 1;
             while (table.Cells[i, 1].Value != null)
             {
                 foreach (var p in Database.FindPersonsAll())
                 {
-                    if (p.f.ToLower().Replace("ё", "е") != ((string)table.Cells[i, 2].Value).ToLower().Replace("ё", "е")) continue;
-                    if (p.i.ToLower().Replace("ё", "е") != ((string)table.Cells[i, 3].Value).ToLower().Replace("ё", "е")) continue;
-                    if (p.o.ToLower().Replace("ё", "е") != ((string)table.Cells[i, 4].Value).ToLower().Replace("ё", "е")) continue;
-                    if (p.birthDate != (DateTime)table.Cells[i, 5].Value) continue;
-                    if (p.SNILS != null) continue;
+                    if (p.f.ToLower().Replace("ё", "е") != ((string)table.Cells[i, 2].Value).ToLower().Replace("ё", "е") || 
+                    p.i.ToLower().Replace("ё", "е") != ((string)table.Cells[i, 3].Value).ToLower().Replace("ё", "е") ||
+                    p.o.ToLower().Replace("ё", "е") != ((string)table.Cells[i, 4].Value).ToLower().Replace("ё", "е") || 
+                    p.birthDate != (DateTime)table.Cells[i, 5].Value)
+                    {
+                        table.Cells[i, 6].Value = "Не найден";
+                        continue;
+                    }
+                    if (p.SNILS != null)
+                    {
+                        table.Cells[i, 6].Value = "СНИЛС уже есть";
+                        break;
+                    }
 
                     p.documents.Add(new Database.Document
                     {
@@ -559,14 +567,17 @@ namespace MnogodetLiteDB
                         number = (string)table.Cells[i, 1].Value
                     });
                     p.Update();
+                    table.Cells[i, 6].Value = "СНИЛС внесен";
 
                     break;
                 }
+
                 exportForm.progressText = (i).ToString();
                 exportForm.Update();
                 i++;
             }
-
+            excelFile.Save();
+            excelFile.Dispose();
             exportForm.Close();
         }
 

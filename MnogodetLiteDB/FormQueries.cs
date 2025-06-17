@@ -29,6 +29,7 @@ namespace MnogodetLiteDB
             openedForm.AddQuery("Ежегодная выгрузка многодетных в ФНС", Export.ExportFNSXML);
             openedForm.AddQuery("Выгрузка семей с действующими удостоверениями", Export.ExportPfrExcel);
             openedForm.AddQuery("Выгрузка граждан по СНИЛСам из списка", Export.FindPeopleFromExcelSNILS);
+            openedForm.AddQuery("Внесение СНИЛСов в базу из списка", Export.AddSnilsFromFile);
 
             openedForm.Show();
             openedForm.Activate();
@@ -49,6 +50,11 @@ namespace MnogodetLiteDB
         {
             if (listBox.SelectedIndex > -1)
                 queryDelegates[listBox.SelectedIndex]();
+        }
+
+        private void FormQueries_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            openedForm = null;
         }
     }
 }

@@ -80,17 +80,11 @@ namespace MnogodetLiteDB {
                 new FormFamily(family).Show();
         }
 
-        private void buttonExport_Click(object sender, EventArgs e) {
-            Export.ExportFNSXML();
-        }
         
         private void buttonAddFamily_Click(object sender, EventArgs e) {
             new FormFamily().Show();
         }
 
-        private void buttonExportPFR_Click(object sender, EventArgs e) {
-            Export.ExportPfrExcel();
-        }
 
         private void buttonDictionaries_Click(object sender, EventArgs e) {
             FormDictionaries.Open();
@@ -101,7 +95,7 @@ namespace MnogodetLiteDB {
         }
 // Запилить приличное окно прогресса, с автоматизацией Show и Update
 // Запилить диалог выбора даты
-        private void button1_Click(object sender, EventArgs e) {
+        private void QueryBtn_Click(object sender, EventArgs e) {
             FormQueries.Open();
         }
 
@@ -109,8 +103,5 @@ namespace MnogodetLiteDB {
             FormParameters.Open();
         }
 
-        private void button3_Click(object sender, EventArgs e) {
-            Export.ExportPfrCsv();
-        }
     }
 }

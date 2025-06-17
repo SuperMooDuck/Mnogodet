@@ -55,7 +55,8 @@
             this.Controls.Add(this.listBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FormQueries";
-            this.Text = "FormQueries";
+            this.Text = "Запросы и выгрузки";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormQueries_FormClosed);
             this.ResumeLayout(false);
 
         }

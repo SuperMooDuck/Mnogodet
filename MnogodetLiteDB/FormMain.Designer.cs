@@ -44,14 +44,11 @@ namespace MnogodetLiteDB {
             this.buttonSearch = new System.Windows.Forms.Button();
             this.editAddress = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.buttonExport = new System.Windows.Forms.Button();
             this.buttonAddFamily = new System.Windows.Forms.Button();
-            this.buttonExportPFR = new System.Windows.Forms.Button();
             this.buttonDictionaries = new System.Windows.Forms.Button();
             this.QueryBtn = new System.Windows.Forms.Button();
             this.buttonDoubles = new System.Windows.Forms.Button();
             this.buttonParameters = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridPersons)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,7 +71,7 @@ namespace MnogodetLiteDB {
             this.gridPersons.Name = "gridPersons";
             this.gridPersons.ReadOnly = true;
             this.gridPersons.RowTemplate.Height = 24;
-            this.gridPersons.Size = new System.Drawing.Size(970, 716);
+            this.gridPersons.Size = new System.Drawing.Size(621, 585);
             this.gridPersons.TabIndex = 0;
             this.gridPersons.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.gridPersons_MouseDoubleClick);
             // 
@@ -232,16 +229,6 @@ namespace MnogodetLiteDB {
             this.label5.TabIndex = 17;
             this.label5.Text = "Адрес:";
             // 
-            // buttonExport
-            // 
-            this.buttonExport.Location = new System.Drawing.Point(12, 448);
-            this.buttonExport.Name = "buttonExport";
-            this.buttonExport.Size = new System.Drawing.Size(118, 23);
-            this.buttonExport.TabIndex = 20;
-            this.buttonExport.Text = "Экспорт в ФНС";
-            this.buttonExport.UseVisualStyleBackColor = true;
-            this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
-            // 
             // buttonAddFamily
             // 
             this.buttonAddFamily.Location = new System.Drawing.Point(12, 284);
@@ -252,19 +239,9 @@ namespace MnogodetLiteDB {
             this.buttonAddFamily.UseVisualStyleBackColor = true;
             this.buttonAddFamily.Click += new System.EventHandler(this.buttonAddFamily_Click);
             // 
-            // buttonExportPFR
-            // 
-            this.buttonExportPFR.Location = new System.Drawing.Point(12, 477);
-            this.buttonExportPFR.Name = "buttonExportPFR";
-            this.buttonExportPFR.Size = new System.Drawing.Size(118, 34);
-            this.buttonExportPFR.TabIndex = 24;
-            this.buttonExportPFR.Text = "Старый Экспорт в ПФР";
-            this.buttonExportPFR.UseVisualStyleBackColor = true;
-            this.buttonExportPFR.Click += new System.EventHandler(this.buttonExportPFR_Click);
-            // 
             // buttonDictionaries
             // 
-            this.buttonDictionaries.Location = new System.Drawing.Point(12, 691);
+            this.buttonDictionaries.Location = new System.Drawing.Point(12, 561);
             this.buttonDictionaries.Name = "buttonDictionaries";
             this.buttonDictionaries.Size = new System.Drawing.Size(118, 37);
             this.buttonDictionaries.TabIndex = 25;
@@ -274,13 +251,13 @@ namespace MnogodetLiteDB {
             // 
             // QueryBtn
             // 
-            this.QueryBtn.Location = new System.Drawing.Point(12, 579);
+            this.QueryBtn.Location = new System.Drawing.Point(12, 449);
             this.QueryBtn.Name = "QueryBtn";
-            this.QueryBtn.Size = new System.Drawing.Size(118, 23);
+            this.QueryBtn.Size = new System.Drawing.Size(118, 39);
             this.QueryBtn.TabIndex = 26;
-            this.QueryBtn.Text = "Запросы";
+            this.QueryBtn.Text = "Запросы и выгрузки";
             this.QueryBtn.UseVisualStyleBackColor = true;
-            this.QueryBtn.Click += new System.EventHandler(this.button1_Click);
+            this.QueryBtn.Click += new System.EventHandler(this.QueryBtn_Click);
             // 
             // buttonDoubles
             // 
@@ -294,7 +271,7 @@ namespace MnogodetLiteDB {
             // 
             // buttonParameters
             // 
-            this.buttonParameters.Location = new System.Drawing.Point(12, 648);
+            this.buttonParameters.Location = new System.Drawing.Point(12, 518);
             this.buttonParameters.Name = "buttonParameters";
             this.buttonParameters.Size = new System.Drawing.Size(118, 37);
             this.buttonParameters.TabIndex = 28;
@@ -302,29 +279,16 @@ namespace MnogodetLiteDB {
             this.buttonParameters.UseVisualStyleBackColor = true;
             this.buttonParameters.Click += new System.EventHandler(this.buttonParameters_Click);
             // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(12, 517);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(118, 40);
-            this.button3.TabIndex = 29;
-            this.button3.Text = "Новый Экспорт в ПФР CSV";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1118, 740);
-            this.Controls.Add(this.button3);
+            this.ClientSize = new System.Drawing.Size(769, 609);
             this.Controls.Add(this.buttonParameters);
             this.Controls.Add(this.buttonDoubles);
             this.Controls.Add(this.QueryBtn);
             this.Controls.Add(this.buttonDictionaries);
-            this.Controls.Add(this.buttonExportPFR);
             this.Controls.Add(this.buttonAddFamily);
-            this.Controls.Add(this.buttonExport);
             this.Controls.Add(this.editAddress);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.buttonSearch);
@@ -339,7 +303,7 @@ namespace MnogodetLiteDB {
             this.Controls.Add(this.button2);
             this.Controls.Add(this.buttonFamiliesProblems);
             this.Controls.Add(this.gridPersons);
-            this.MinimumSize = new System.Drawing.Size(630, 550);
+            this.MinimumSize = new System.Drawing.Size(785, 648);
             this.Name = "FormMain";
             this.Text = "Многодетные семьи";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -365,7 +329,6 @@ namespace MnogodetLiteDB {
         private System.Windows.Forms.Button buttonSearch;
         private System.Windows.Forms.TextBox editAddress;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button buttonExport;
         private System.Windows.Forms.Button buttonAddFamily;
         private System.Windows.Forms.DataGridViewTextBoxColumn familyId;
         private System.Windows.Forms.DataGridViewTextBoxColumn f;
@@ -373,12 +336,10 @@ namespace MnogodetLiteDB {
         private System.Windows.Forms.DataGridViewTextBoxColumn o;
         private System.Windows.Forms.DataGridViewTextBoxColumn birthDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn address;
-        private System.Windows.Forms.Button buttonExportPFR;
         private System.Windows.Forms.Button buttonDictionaries;
         private System.Windows.Forms.Button QueryBtn;
         private System.Windows.Forms.Button buttonDoubles;
         private System.Windows.Forms.Button buttonParameters;
-        private System.Windows.Forms.Button button3;
     }
 }
 
