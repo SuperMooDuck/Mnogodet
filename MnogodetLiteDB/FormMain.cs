@@ -1,8 +1,11 @@
-﻿using System;
+﻿using OfficeOpenXml.ConditionalFormatting;
+using System;
 using System.Windows.Forms;
 
 namespace MnogodetLiteDB {
     public partial class FormMain : Form {
+
+        public static FormMain formObject;
 
         public FormMain() {
             InitializeComponent();
@@ -10,6 +13,7 @@ namespace MnogodetLiteDB {
 
         private void Form1_Load(object sender, EventArgs e) {
             Database.Open();
+            formObject = this;
         }
 
         private void buttonFamiliesProblems_Click(object sender, EventArgs e) {

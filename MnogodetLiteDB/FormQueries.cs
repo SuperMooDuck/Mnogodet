@@ -26,11 +26,12 @@ namespace MnogodetLiteDB
 
             openedForm.listBox.Items.Clear();
             openedForm.queryDelegates = new List<Action>();
+            openedForm.AddQuery("Ежемесячный отчет", Export.MonthlyReport);
             openedForm.AddQuery("Ежегодная выгрузка многодетных в ФНС", Export.ExportFNSXML);
             openedForm.AddQuery("Выгрузка семей с действующими удостоверениями", Export.ExportPfrExcel);
             openedForm.AddQuery("Выгрузка граждан по СНИЛСам из списка", Export.FindPeopleFromExcelSNILS);
             openedForm.AddQuery("Внесение СНИЛСов в базу из списка", Export.AddSnilsFromFile);
-
+            openedForm.AddQuery("Парсинг адресов", Export.ParseAddresses);
             openedForm.Show();
             openedForm.Activate();
         }
@@ -55,6 +56,11 @@ namespace MnogodetLiteDB
         private void FormQueries_FormClosed(object sender, FormClosedEventArgs e)
         {
             openedForm = null;
+        }
+
+        private void listBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

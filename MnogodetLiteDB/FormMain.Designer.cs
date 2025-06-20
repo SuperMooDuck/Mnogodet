@@ -314,8 +314,6 @@ namespace MnogodetLiteDB {
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView gridPersons;
         private System.Windows.Forms.Button buttonFamiliesProblems;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label1;
@@ -340,6 +338,7 @@ namespace MnogodetLiteDB {
         private System.Windows.Forms.Button QueryBtn;
         private System.Windows.Forms.Button buttonDoubles;
         private System.Windows.Forms.Button buttonParameters;
+        public System.Windows.Forms.DataGridView gridPersons;
     }
 }
 

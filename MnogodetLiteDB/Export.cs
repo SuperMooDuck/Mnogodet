@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -775,6 +776,172 @@ namespace MnogodetLiteDB
             }
 
             exportForm.Close();
+            excelFile.Save();
+            excelFile.Dispose();
+        }
+        
+        public static void ParseAddresses()
+        {
+            var exportForm = new FormExportProgress();
+            exportForm.Show();
+            FormMain.formObject.gridPersons.Rows.Clear();
+
+            var families = Database.FindFamiliesAll();
+            var settlements = new Dictionary<int, string>();
+            foreach (var s in Database.dictSettlements.values)
+                if (s.Key % 100 != 0) settlements.Add(s.Key, s.Value);
+            int i = 0;
+
+            foreach (var f in families)
+            {
+                foreach (var s in settlements)
+                    if (f.address.ToLower().Replace("ё", "е").Contains(s.Value.ToLower().Replace("ё", "е")))
+                    {
+                        f.settlementId = s.Key;
+                        f.Update();
+                        break;
+                    }
+                if (f.settlementId == 0)
+                {
+                    var p = f.persons[0];
+                    FormMain.formObject.gridPersons.Rows.Add(new object[] { f.Id, p.f, p.i, p.o, p.birthDate.ToShortDateString() });
+                }
+                exportForm.progressText = (i++).ToString() + " / " + families.Count.ToString();
+                exportForm.Update();
+            }
+            exportForm.Close();
+        }
+
+        public static void MonthlyReport()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Файлы Excel (*.xlsx)|*.xlsx";
+            saveFileDialog.AddExtension = true;
+            if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
+
+            const int calcsSize = 12;
+            var calcs = new Dictionary<int, Dictionary<int, int[]>>();
+
+            foreach (var s in Database.dictSettlements.values)
+            {
+                int id = s.Key;
+                if (id % 1000000 == 0) continue;
+                if (id % 10000 == 0) calcs.Add(id, new Dictionary<int, int[]>());
+                else if (id % 100 == 0) calcs[id / 10000 * 10000].Add(id, new int[calcsSize]);
+            }
+
+            var exportForm = new FormExportProgress();
+            exportForm.Show();
+
+            int progress = 0;
+            var families = Database.FindFamiliesAll();
+            foreach (var f in families)
+            {
+                if (f.GetProblemText() != null) continue;
+                if (f.settlementId == 0) continue;
+
+                var munObrList = calcs[f.settlementId / 10000 * 10000][f.settlementId / 100 * 100];
+                int childrenNum = 0;
+                foreach (var p in f.persons)
+                    if (p.type == 2) childrenNum++;
+                munObrList[0]++;
+                munObrList[1] += childrenNum;
+                
+                int listIndex = 0;
+                if (childrenNum >= 11) listIndex = 10;
+                else if (childrenNum >= 8) listIndex = 8;
+                else if (childrenNum >= 5) listIndex = 6;
+                else if (childrenNum == 4) listIndex = 4;
+                else if (childrenNum == 3) listIndex = 2;
+                munObrList[listIndex]++;
+                munObrList[listIndex+1] += childrenNum;
+
+                exportForm.progressText = (progress++).ToString() + " / " + families.Count.ToString();
+                exportForm.Update();
+            }
+
+            exportForm.Close();
+
+            if (System.IO.File.Exists(saveFileDialog.FileName))
+                System.IO.File.Delete(saveFileDialog.FileName);
+            var excelFile = new OfficeOpenXml.ExcelPackage(saveFileDialog.FileName);
+            var workbook = excelFile.Workbook;
+            var sheet = workbook.Worksheets.Add("Сведения о многодетных семьях");
+
+            var captions = new Dictionary<string, string>()
+            {
+                {"A1:N1", "Информация о численности многодетных семей в Еврейской автономной области по состоянию на " + DateTime.Now.ToShortDateString()},
+                {"A2:A4", "№" },
+                {"B2:B4", "Наименование поселения" },
+                {"C2:C4", "Общая численность многодетных семей (всего)" },
+                {"D2:D4", "Численность в них детей (всего)" },
+                {"E2:F2", "Семей с 3 детьми" }, {"E3:F3", "Численность" }, {"E4", "семей" }, {"F4", "в них детей" },
+                {"G2:H2", "Семей с 4 детьми" }, {"G3:H3", "Численность" }, {"G4", "семей" }, {"H4", "в них детей" },
+                {"I2:J2", "Семей с 5-7 детьми" }, {"I3:J3", "Численность" }, {"I4", "семей" }, {"J4", "в них детей" },
+                {"K2:L2", "Семей с 8-10 детьми" }, {"K3:L3", "Численность" }, {"K4", "семей" }, {"L4", "в них детей" },
+                {"M2:N2", "Семей с 11 детьми и более" }, {"M3:N3", "Численность" }, {"M4", "семей" }, {"N4", "в них детей" }
+            };
+
+            foreach (var c in captions)
+            {
+                var cell = sheet.Cells[c.Key];
+                cell.Merge = true;
+                cell.Value = c.Value;
+                var style = cell.Style;
+                style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                style.WrapText = true;
+                style.Font.Bold = true;
+                style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            }
+            sheet.Columns[2].Width = 50;
+
+            int curRow = 5;
+            int num = 1;
+            foreach (var raion in calcs)
+            {
+                var captionCell = sheet.Cells[$"A{curRow}:N{curRow}"];
+                captionCell.Merge = true;
+                captionCell.Value = Database.dictSettlements.values[raion.Key];
+                var captionStyle = captionCell.Style;
+                captionStyle.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                captionStyle.Font.Bold = true;
+                captionStyle.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                curRow++;
+
+                var totalsList = new int[calcsSize];
+                foreach (var munObr in raion.Value)
+                {
+                    sheet.Cells[curRow, 1].Value = num++;
+                    sheet.Cells[curRow, 2].Value = Database.dictSettlements.values[munObr.Key];
+                    for (int i = 1; i < calcsSize + 3; i++)
+                    {
+                        var cell = sheet.Cells[curRow, i];
+
+                        if (i == 1) cell.Value = num++;
+                        else if (i == 2) cell.Value = Database.dictSettlements.values[munObr.Key];
+                        else
+                        {
+                            totalsList[i - 3] += munObr.Value[i - 3];
+                            cell.Value = munObr.Value[i - 3];
+                        }
+                        cell.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                        cell.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    }
+                    curRow++;
+                }
+
+                for (int i = 1; i < calcsSize + 3; i++)
+                {
+                    var cell = sheet.Cells[curRow, i];
+                    if (i == 2) cell.Value = "Итого:";
+                    else if (i > 2) cell.Value = totalsList[i - 3];
+                    cell.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    cell.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                }
+                curRow++;
+            }
+
             excelFile.Save();
             excelFile.Dispose();
         }

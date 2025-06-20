@@ -12,13 +12,17 @@ namespace MnogodetLiteDB {
     public partial class FormFamily : Form {
         Database.Family family;
         bool dataChanged, newFamily;
-        List<Database.ListMenuItem> cancelReasonMenuItemsList;
+        //List<Database.ListMenuItem> cancelReasonMenuItemsList;
 
         void LoadMenuList() {
-            cancelReasonMenuItemsList = Database.dictCancelReasons.GetMenuList();
-            listCancelReason.DataSource = cancelReasonMenuItemsList;
+            //cancelReasonMenuItemsList = Database.dictCancelReasons.GetMenuList();
+            listCancelReason.DataSource = Database.dictCancelReasons.GetMenuList();
             listCancelReason.ValueMember = "Value";
             listCancelReason.DisplayMember = "Name";
+            comboBoxRaion.ValueMember = "Value";
+            comboBoxRaion.DisplayMember = "Name";
+            comboBoxRaion.DataSource = Database.dictSettlements.GetMenuListRaion();
+
         }
         public FormFamily(Database.Family family) {
             InitializeComponent();
@@ -82,6 +86,18 @@ namespace MnogodetLiteDB {
             labelUdostDateExpireStatus.Text = family.udostoverenieExpirationDate < DateTime.Now ? "Истекло:" : "Истекает:";
             labelUdostDateExpireStatus.ForeColor = family.udostoverenieExpirationDate < DateTime.Now ? Color.Red : Color.Black;
 
+            if (family.settlementId == 0)
+            {
+                comboBoxRaion.SelectedIndex = 0;
+                comboBoxMunObr.SelectedIndex = 0;
+                comboBoxSettlement.SelectedIndex = 0;
+            } else
+            {
+                comboBoxRaion.SelectedValue = family.settlementId / 10000 * 10000;
+                comboBoxMunObr.SelectedValue = family.settlementId / 100 * 100;
+                comboBoxSettlement.SelectedValue = family.settlementId;
+            }
+
             string status = family.GetProblemText();
             if (status == null) {
                 switch (family.fnsStatus) {
@@ -109,6 +125,7 @@ namespace MnogodetLiteDB {
         void SaveAndClose() {
             family.address = editAddress.Text;
             family.comment = editComment.Text;
+            family.settlementId = (int)comboBoxSettlement.SelectedValue;
             if (family.cancelReason != (int)listCancelReason.SelectedValue) {
                 family.cancelReason = (int)listCancelReason.SelectedValue;
                 family.cancelReasonDate = DateTime.Now;
@@ -190,6 +207,22 @@ namespace MnogodetLiteDB {
             if ((new FormUdostoverenie(family).ShowDialog() == DialogResult.OK)) {
                 RefreshData();
             }
+        }
+
+        private void comboBoxRaion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBoxMunObr.ValueMember = "Value";
+            comboBoxMunObr.DisplayMember = "Name";
+            comboBoxMunObr.DataSource = Database.dictSettlements.GetMenuListMunObrByRaion((int)comboBoxRaion.SelectedValue);
+            DataChanged(sender, e);
+        }
+
+        private void comboBoxMunObr_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBoxSettlement.ValueMember = "Value";
+            comboBoxSettlement.DisplayMember = "Name";
+            comboBoxSettlement.DataSource = Database.dictSettlements.GetMenuListSettlementsByMunObr((int)comboBoxMunObr.SelectedValue);
+            DataChanged(sender, e);
         }
 
         private void PersonsDataChanged() {

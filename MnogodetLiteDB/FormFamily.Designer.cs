@@ -46,7 +46,6 @@ namespace MnogodetLiteDB {
             this.listCancelReason = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.labelCancelReasonDate = new System.Windows.Forms.Label();
-            this.databaseBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.labelCreationDate = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -58,6 +57,10 @@ namespace MnogodetLiteDB {
             this.buttonUdostEdit = new System.Windows.Forms.Button();
             this.labelId = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.comboBoxRaion = new System.Windows.Forms.ComboBox();
+            this.comboBoxMunObr = new System.Windows.Forms.ComboBox();
+            this.comboBoxSettlement = new System.Windows.Forms.ComboBox();
+            this.databaseBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.gridPersons)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.databaseBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -78,11 +81,11 @@ namespace MnogodetLiteDB {
             this.o,
             this.birthDate,
             this.status});
-            this.gridPersons.Location = new System.Drawing.Point(12, 142);
+            this.gridPersons.Location = new System.Drawing.Point(12, 167);
             this.gridPersons.Name = "gridPersons";
             this.gridPersons.ReadOnly = true;
             this.gridPersons.RowTemplate.Height = 24;
-            this.gridPersons.Size = new System.Drawing.Size(788, 343);
+            this.gridPersons.Size = new System.Drawing.Size(628, 318);
             this.gridPersons.TabIndex = 0;
             this.gridPersons.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridPersons_CellMouseDoubleClick);
             // 
@@ -161,9 +164,9 @@ namespace MnogodetLiteDB {
             // 
             this.editAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.editAddress.Location = new System.Drawing.Point(96, 90);
+            this.editAddress.Location = new System.Drawing.Point(96, 115);
             this.editAddress.Name = "editAddress";
-            this.editAddress.Size = new System.Drawing.Size(704, 20);
+            this.editAddress.Size = new System.Drawing.Size(544, 20);
             this.editAddress.TabIndex = 4;
             this.editAddress.TextChanged += new System.EventHandler(this.DataChanged);
             // 
@@ -171,16 +174,16 @@ namespace MnogodetLiteDB {
             // 
             this.editComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.editComment.Location = new System.Drawing.Point(96, 116);
+            this.editComment.Location = new System.Drawing.Point(96, 139);
             this.editComment.Name = "editComment";
-            this.editComment.Size = new System.Drawing.Size(704, 20);
+            this.editComment.Size = new System.Drawing.Size(544, 20);
             this.editComment.TabIndex = 6;
             this.editComment.TextChanged += new System.EventHandler(this.DataChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 121);
+            this.label3.Location = new System.Drawing.Point(8, 144);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(80, 13);
             this.label3.TabIndex = 5;
@@ -211,7 +214,7 @@ namespace MnogodetLiteDB {
             // buttonDeleteFamily
             // 
             this.buttonDeleteFamily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDeleteFamily.Location = new System.Drawing.Point(670, 493);
+            this.buttonDeleteFamily.Location = new System.Drawing.Point(510, 493);
             this.buttonDeleteFamily.Name = "buttonDeleteFamily";
             this.buttonDeleteFamily.Size = new System.Drawing.Size(130, 23);
             this.buttonDeleteFamily.TabIndex = 9;
@@ -256,10 +259,6 @@ namespace MnogodetLiteDB {
             this.labelCancelReasonDate.Size = new System.Drawing.Size(61, 13);
             this.labelCancelReasonDate.TabIndex = 13;
             this.labelCancelReasonDate.Text = "00.00.0000";
-            // 
-            // databaseBindingSource
-            // 
-            this.databaseBindingSource.DataSource = typeof(MnogodetLiteDB.Database);
             // 
             // labelCreationDate
             // 
@@ -361,11 +360,47 @@ namespace MnogodetLiteDB {
             this.label9.TabIndex = 26;
             this.label9.Text = "ID:";
             // 
+            // comboBoxRaion
+            // 
+            this.comboBoxRaion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxRaion.FormattingEnabled = true;
+            this.comboBoxRaion.Location = new System.Drawing.Point(96, 89);
+            this.comboBoxRaion.Name = "comboBoxRaion";
+            this.comboBoxRaion.Size = new System.Drawing.Size(139, 21);
+            this.comboBoxRaion.TabIndex = 28;
+            this.comboBoxRaion.SelectedIndexChanged += new System.EventHandler(this.comboBoxRaion_SelectedIndexChanged);
+            // 
+            // comboBoxMunObr
+            // 
+            this.comboBoxMunObr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMunObr.FormattingEnabled = true;
+            this.comboBoxMunObr.Location = new System.Drawing.Point(241, 89);
+            this.comboBoxMunObr.Name = "comboBoxMunObr";
+            this.comboBoxMunObr.Size = new System.Drawing.Size(169, 21);
+            this.comboBoxMunObr.TabIndex = 29;
+            this.comboBoxMunObr.SelectedIndexChanged += new System.EventHandler(this.comboBoxMunObr_SelectedIndexChanged);
+            // 
+            // comboBoxSettlement
+            // 
+            this.comboBoxSettlement.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSettlement.FormattingEnabled = true;
+            this.comboBoxSettlement.Location = new System.Drawing.Point(416, 89);
+            this.comboBoxSettlement.Name = "comboBoxSettlement";
+            this.comboBoxSettlement.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxSettlement.TabIndex = 30;
+            // 
+            // databaseBindingSource
+            // 
+            this.databaseBindingSource.DataSource = typeof(MnogodetLiteDB.Database);
+            // 
             // FormFamily
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(812, 528);
+            this.ClientSize = new System.Drawing.Size(652, 528);
+            this.Controls.Add(this.comboBoxSettlement);
+            this.Controls.Add(this.comboBoxMunObr);
+            this.Controls.Add(this.comboBoxRaion);
             this.Controls.Add(this.labelId);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.buttonUdostEdit);
@@ -436,5 +471,8 @@ namespace MnogodetLiteDB {
         private System.Windows.Forms.Button buttonUdostEdit;
         private System.Windows.Forms.Label labelId;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox comboBoxRaion;
+        private System.Windows.Forms.ComboBox comboBoxMunObr;
+        private System.Windows.Forms.ComboBox comboBoxSettlement;
     }
 }

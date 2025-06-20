@@ -215,6 +215,7 @@ namespace MnogodetLiteDB {
             // 
             // editType
             // 
+            this.editType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.editType.FormattingEnabled = true;
             this.editType.Items.AddRange(new object[] {
             "Мать",
@@ -224,7 +225,7 @@ namespace MnogodetLiteDB {
             this.editType.Name = "editType";
             this.editType.Size = new System.Drawing.Size(128, 21);
             this.editType.TabIndex = 14;
-            this.editType.SelectedValueChanged += new System.EventHandler(this.DataChanged);
+            this.editType.TextChanged += new System.EventHandler(this.DataChanged);
             // 
             // buttonDelete
             // 
@@ -248,6 +249,7 @@ namespace MnogodetLiteDB {
             // 
             // editGender
             // 
+            this.editGender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.editGender.FormattingEnabled = true;
             this.editGender.Items.AddRange(new object[] {
             "Женский",
@@ -256,6 +258,7 @@ namespace MnogodetLiteDB {
             this.editGender.Name = "editGender";
             this.editGender.Size = new System.Drawing.Size(128, 21);
             this.editGender.TabIndex = 17;
+            this.editGender.TextChanged += new System.EventHandler(this.DataChanged);
             // 
             // FormPerson
             // 
