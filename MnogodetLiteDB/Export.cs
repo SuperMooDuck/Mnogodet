@@ -837,7 +837,7 @@ namespace MnogodetLiteDB
             var families = Database.FindFamiliesAll();
             foreach (var f in families)
             {
-                if (f.GetProblemText() != null) continue;
+                if (!f.IsValidByUdostExpireDate()) continue;
                 if (f.settlementId == 0) continue;
 
                 var munObrList = calcs[f.settlementId / 10000 * 10000][f.settlementId / 100 * 100];
